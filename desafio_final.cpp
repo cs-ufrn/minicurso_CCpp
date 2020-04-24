@@ -52,26 +52,26 @@ int main() {
                 escolha_jogador = 0;
             }
 
-            if(!altera_matriz_jogo(escolha_jogador, vez_jogador, matriz_jogo)){
-                i--;
+            if(!altera_matriz_jogo(escolha_jogador, vez_jogador, matriz_jogo)){ //checa se a escolha foi errada
+                i--; //retorna a vez do jogador
             };
 
             vencedor = verifica_vencedor(matriz_jogo);
-            if(vencedor != 0){
-                break;
+            if(vencedor != 0){ //checa se há vencedor
+                break; //quebra o laço for no caso do jogador 1 ser campeão ou der velha
             }
 
         }
     }
 
-    vencedor_ou_velha(vencedor);
+    vencedor_ou_velha(vencedor); //Imprime quem venceu ou se deu velha
 
     mostra_matriz(matriz_jogo);
 
-    return 0;
+    return 0; //termina o código principal retornando 0.
 }
 
-bool checa_num(string str){
+bool checa_num(string str){ //checa se a string possui apenas números
     for (int i = 0; i < str.length(); i++){
         if (isdigit(str[i]) == false){
             return false;
@@ -80,13 +80,13 @@ bool checa_num(string str){
     return true;
 }
 
-void dupla_escolha(void){
+void dupla_escolha(void){   //imprime mensagens para o jogador q escolher uma casa já escolhida previamente
     cout << "ERRO: O número escolhido já foi escolhido anteriormente por você ou por outro jogador." << endl;
     cout << "Tente novamente." << endl;
-    sleep_for(seconds(3));
+    sleep_for(seconds(3)); //congela o prompt por 3 segundos
 }
 
-char X_ou_O(int jogador_da_vez){
+char X_ou_O(int jogador_da_vez){ //retorna o símbolo pra cada jogador
     if(jogador_da_vez == 1){
         return 'X';
     }
@@ -95,7 +95,7 @@ char X_ou_O(int jogador_da_vez){
     }
 }
 
-void mostra_matriz(char matriz_jogo[][3]){
+void mostra_matriz(char matriz_jogo[][3]){ //imprime a matriz_jogo em forma de tabuleiro
 
     cout << endl;//pula uma linha
 
@@ -109,7 +109,8 @@ void mostra_matriz(char matriz_jogo[][3]){
     cout << endl;//pula uma linha
 }
 
-bool altera_matriz_jogo(int escolha_jogador, int vez_jogador, char matriz_jogo[][3]){
+bool altera_matriz_jogo(int escolha_jogador, int vez_jogador, char matriz_jogo[][3]){ //altera a matriz de acordo com a escolha
+                                                                                      //do jogador
 
             if(escolha_jogador == 1){
                 if(matriz_jogo[0][0] != 'X' && matriz_jogo[0][0] != 'O'){
@@ -221,15 +222,15 @@ bool altera_matriz_jogo(int escolha_jogador, int vez_jogador, char matriz_jogo[]
                     return false;
                     }
             }
-            else{
-                cout << "O valor indicado não é válido, informe outro valor de acordo com os números disponíveis no tabuleiro." << endl;
+            else{ //imprime mensagem de erro
+                cout << "ERRO: O valor indicado não é válido, informe outro valor de acordo com os números disponíveis no tabuleiro." << endl;
                 sleep_for(seconds(3));
 
                 return false;
             }
 }
 
-int verifica_vencedor(char matriz_jogo[][3]){
+int verifica_vencedor(char matriz_jogo[][3]){ //Retorna o vencedor, caso exista, o empate (como 3) ou 0 para continuar o jogo
 
     //Verifica se existem colunas iguais
     for(int col = 0; col < 3; col++){
@@ -285,14 +286,14 @@ int verifica_vencedor(char matriz_jogo[][3]){
             (matriz_jogo[2][2] == 'X' || matriz_jogo[2][2] == 'O')){
                 return 3;
             }
-    //Se não houver vencedores retorna 0
-    else{
+    
+    else{   //Se não houver vencedores retorna 0
         return 0;
     }
 
 }
 
-void vencedor_ou_velha(int vencedor){
+void vencedor_ou_velha(int vencedor){ //Imprime o vencedor ou a mensagem de empate
     if(vencedor == 3){
         cout << '\n' << endl; //pula duas linhas
         cout << "=====================================" << endl;
