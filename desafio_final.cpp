@@ -1,8 +1,12 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 bool checa_num(string str);
 void dupla_escolha(void);
@@ -10,6 +14,7 @@ char X_ou_O(int jogador_da_vez);
 bool altera_matriz_jogo(int escolha_jogador, int vez_jogador, char matriz_jogo[][3]);
 int verifica_vencedor(char matriz_jogo[][3]);
 void mostra_matriz(char matriz_jogo[][3]);
+void vencedor_ou_velha(int vencedor);
 
 int main() {
     int vencedor = 0;
@@ -40,9 +45,8 @@ int main() {
 
             cin >> aux_str;
 
-            if(checa_num(aux_str)){
-                istringstream aux_sstr(aux_str);
-                aux_sstr >> escolha_jogador;
+            if(checa_num(aux_str)){ //checa se a escolha é um número válido
+                stringstream(aux_str) >> escolha_jogador;
             }
             else{
                 escolha_jogador = 0;
@@ -60,18 +64,7 @@ int main() {
         }
     }
 
-    if(vencedor == 3){
-        cout << '\n' << endl; //pula duas linhas
-        cout << "=====================================" << endl;
-        cout << "             Deu velha!              " << endl;
-        cout << "=====================================" << endl;
-    }
-    else{
-        cout << '\n' << endl; //pula duas linhas
-        cout << "=====================================" << endl;
-        cout << "           Jogador " << vencedor << " venceu!  " << endl;
-        cout << "=====================================" << endl;
-    }
+    vencedor_ou_velha(vencedor);
 
     mostra_matriz(matriz_jogo);
 
@@ -90,6 +83,7 @@ bool checa_num(string str){
 void dupla_escolha(void){
     cout << "ERRO: O número escolhido já foi escolhido anteriormente por você ou por outro jogador." << endl;
     cout << "Tente novamente." << endl;
+    sleep_for(seconds(3));
 }
 
 char X_ou_O(int jogador_da_vez){
@@ -229,6 +223,8 @@ bool altera_matriz_jogo(int escolha_jogador, int vez_jogador, char matriz_jogo[]
             }
             else{
                 cout << "O valor indicado não é válido, informe outro valor de acordo com os números disponíveis no tabuleiro." << endl;
+                sleep_for(seconds(3));
+
                 return false;
             }
 }
@@ -294,4 +290,19 @@ int verifica_vencedor(char matriz_jogo[][3]){
         return 0;
     }
 
+}
+
+void vencedor_ou_velha(int vencedor){
+    if(vencedor == 3){
+        cout << '\n' << endl; //pula duas linhas
+        cout << "=====================================" << endl;
+        cout << "             Deu velha!              " << endl;
+        cout << "=====================================" << endl;
+    }
+    else{
+        cout << '\n' << endl; //pula duas linhas
+        cout << "=====================================" << endl;
+        cout << "           Jogador " << vencedor << " venceu!  " << endl;
+        cout << "=====================================" << endl;
+    }
 }
